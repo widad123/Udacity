@@ -1,4 +1,4 @@
-import sha256 from 'crypto-js/sha256';
+var SHA256 = require("crypto-js/sha256");
 
-const sha256 = sha256('Udacity');
+const sha256 = SHA256('Udacity');
 console.log(sha256)
