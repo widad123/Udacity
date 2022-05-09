@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+/**
+ * Importing the Block class
+ */
+//
+const BlockClass = require('./block.js');
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+/**
+ * Creating a block object
+ */
+const block = new BlockClass.Block("Test Block");
 
-export default App;
+// Generating the block hash
+block.generateHash().then((result) => {
+	console.log(`Block Hash: ${result.hash}`);
+	console.log(`Block: ${JSON.stringify(result)}`);
+}).catch((error) => {console.log(error)});
+
+/**
+ * Step 3: Run the application in node.js
+ * 
+ */
+
+// From the terminal: cd into Project folder
+// From the terminal: Run node app.js to run the code
