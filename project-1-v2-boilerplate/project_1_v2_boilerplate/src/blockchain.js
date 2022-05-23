@@ -64,16 +64,27 @@ class Blockchain {
     _addBlock(block) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-            
+           try {
             if(self.height>=0){
                 block.previousBlockHash = await self.chain[this.chain.length-1].hash
             }
             block.time=  new Date().getTime().toString().slice(0,-3)
             block.height= self.height+1
             block.hash= SHA256(JSON.stringify(block)).toString()
-            self.chain.push(block)
-            self.height++
-            resolve(block)
+           //     const errorLog= await self.validateChain()
+         //   if (errorLog.length>0) {
+             //   resolve(errorLog)
+        //    } else {
+                self.chain.push(block)
+                 self.height++
+                resolve(block)
+          //  }
+            
+            
+           } catch (error) {
+               reject(error)
+           } 
+            
         });
     }
 
@@ -134,7 +145,7 @@ class Blockchain {
         let self = this;
         return new Promise((resolve, reject) => {
         try {
-        const block=self.chain.filter(block=>block.hash===hash)
+            const block=self.chain.filter(block=>block.hash===hash)
         resolve(block)
         } catch (error) {
             reject(error)
@@ -206,16 +217,21 @@ class Blockchain {
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
             try {
-                const hash=self.chain[self.height-1].hash;
+                if(self.chain.length=0){
+                const hash=self.chain[self.chain.lengtht].hash;
+                }else {
+                     hash=self.chain[self.chain.lengtht-1].hash;
+                }
                 self.chain.map((chain)=>{
-                if(chain.validate()==="The block is not valid" || chain.previousBlockHash==!hash)
+                if(chain.validate()==="the Block is not valid" || chain.previousBlockHash==!hash)
                 errorLog.push(chain.validate())
             })
                 resolve(errorLog)
+        
             } catch (error) {
                 reject(error)
             }
-            
+        
         });
     }
 
