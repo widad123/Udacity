@@ -40,20 +40,24 @@ class Block {
     validate() {
         let self = this;
         return new Promise((resolve, reject) => {
-            // Save in auxiliary variable the current block hash
-             hash=self.hash                               
+            try {
+                // Save in auxiliary variable the current block hash
+             const hash= self.hash                               
             // Recalculate the hash of the Block
-            blockHach=SHA256(JSON.stringify(self)).toString()
+            const blockHach=SHA256(JSON.stringify(self)).toString()
             // Comparing if the hashes changed
             if(hash==!blockHach){
              // Returning the Block is not valid
              reject("the Block is not valid")
-            }else{
-            // Returning the Block is valid
+            }
+                
+            } catch (error) {
+                // Returning the Block is valid
             resolve("the Block is valid")
             }
             
-
+            
+            
         });
     }
 
