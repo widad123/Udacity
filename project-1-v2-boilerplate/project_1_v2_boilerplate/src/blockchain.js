@@ -72,6 +72,7 @@ class Blockchain {
             block.time=  new Date().getTime().toString().slice(0,-3)
             block.height= self.height+1
             block.hash= SHA256(JSON.stringify(block)).toString()
+            //if not Genesis block
             if (block.height>0) {
                  errorLog= await self.validateChain()
             }

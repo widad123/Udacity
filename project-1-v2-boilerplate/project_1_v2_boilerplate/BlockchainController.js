@@ -1,3 +1,5 @@
+const { rejects } = require("assert");
+
 /**
  *          BlockchainController
  * 
@@ -120,15 +122,22 @@ class BlockchainController {
     }
 
 
-       // Endpoint that allows user to request Ownership of a Wallet address (POST Endpoint)
+       // Endpoint that allows to check if the chain is valid(GET Endpoint)
        validateChainTest() {
-        this.app.get("/chain", async (req, res) => {
+        this.app.get("/validateChain", async (req, res) => {
+            try {
                 const errorlog = await this.blockchain.validateChain();
-                if(errorlog){
-                    return res.status(200).json(errorlog);
-                } else {
+                if(errorlog.length>0){
+                    return res.status(404).json(errorlog);
+                } else if(errorlog.length==0){
+                    return res.status(200).send("The chain is valid!");
+                }else {
                     return res.status(500).send("An error happened!");
                 }
+            } catch (error) {
+                return res.status(500).send(error)
+            }
+                
         });
     }
 
