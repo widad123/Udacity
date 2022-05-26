@@ -128,13 +128,17 @@ class Blockchain {
     submitStar(address, message, signature, star) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-            const messageTime=  parseInt(message.split(':')[1])
+            try {
+                 const messageTime=  parseInt(message.split(':')[1])
             const currentTime=  parseInt(new Date().getTime().toString().slice(0,-3))
             let differenceTime=currentTime-messageTime
-            if (differenceTime<(50*60*1000) &&  bitcoinMessage.verify(message, address, signature)) {
+            if (differenceTime<(5*60) && bitcoinMessage.verify(message, address, signature)) {
                 resolve(await self._addBlock(new BlockClass.Block({"address":address,"message":message,"signature":signature,"star":star})))
             }
-
+            } catch (error) {
+                reject(error)
+            }
+           
         });
     }
 
@@ -193,7 +197,7 @@ class Blockchain {
                         JSON.stringify(data)
                             if(data){
                                 if(data.address===address){
-                                stars.push( data.star)
+                                stars.push({"owner":data.address,"star":data.star})
                             }
                         }
                         }
