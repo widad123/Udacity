@@ -10,7 +10,11 @@ module.exports = {
 
   },
   plugins: [
-    new CopyWebpackPlugin([{ from: "./src/index.html", to: "index.html" }]),
+    new CopyWebpackPlugin([{ from: "./src/index.html", to: "dist" }]),
   ],
-  devServer: { contentBase: path.join(__dirname, "dist"), compress: true },
+  devServer: {
+
+    static: {
+      directory: path.join(__dirname, "./src")
+    },},
 };
